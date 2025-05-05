@@ -39,40 +39,51 @@ android {
     }
 
     signingConfigs {
-        create("debugConfig") {
-            keyAlias = "androiddebugkey"
-            keyPassword = "android"
-            storeFile = project.file("${System.getProperty("user.home")}/.android/debug.keystore")
-            storePassword = "android"
+        getByName("debug") {
+            keyAlias = "Trianglz"
+            keyPassword = "trianglz2025"
+            storeFile = file("../signing/key.jks")
+            storePassword = "trianglz2025"
+        }
+        create("release") {
+            keyAlias = "Trianglz"
+            keyPassword = "trianglz2025"
+            storeFile = file("../signing/key.jks")
+            storePassword = "trianglz2025"
+        }
+        buildTypes {
+            getByName("release") {
+                isMinifyEnabled = false
+                proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+                )
+                signingConfig = signingConfigs.getByName("release")
+                isDebuggable = false
+            }
+            getByName("debug") {
+                signingConfig = signingConfigs.getByName("debug")
+                isDebuggable = true
+            }
         }
     }
-    buildTypes {
-        release {
-            isMinifyEnabled = (false)
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-            signingConfig = signingConfigs.getByName("debugConfig")
-        }
+
+    dependencies {
+
+        implementation(libs.androidx.core.ktx)
+        implementation(libs.androidx.lifecycle.runtime.ktx)
+        implementation(libs.androidx.activity.compose)
+        implementation(platform(libs.androidx.compose.bom))
+        implementation(libs.androidx.ui)
+        implementation(libs.androidx.ui.graphics)
+        implementation(libs.androidx.ui.tooling.preview)
+        implementation(libs.androidx.material3)
+        testImplementation(libs.junit)
+        androidTestImplementation(libs.androidx.junit)
+        androidTestImplementation(libs.androidx.espresso.core)
+        androidTestImplementation(platform(libs.androidx.compose.bom))
+        androidTestImplementation(libs.androidx.ui.test.junit4)
+        debugImplementation(libs.androidx.ui.tooling)
+        debugImplementation(libs.androidx.ui.test.manifest)
     }
-}
-
-dependencies {
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 }
