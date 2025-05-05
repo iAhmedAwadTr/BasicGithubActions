@@ -1,0 +1,5 @@
+ - storePassword 'trianglz2025'
+ - keyPassword 'trianglz2025'
+ - keyAlias = 'Trianglz'
+
+
